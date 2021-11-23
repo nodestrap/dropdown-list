@@ -1,6 +1,6 @@
 {
   "name": "@nodestrap/dropdown-list",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Overlays a list element (menu).",
   "type": "module",
   "main": "dist/DropdownList.jsx",
