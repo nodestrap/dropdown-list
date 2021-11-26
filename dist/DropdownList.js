@@ -100,68 +100,57 @@ export function DropdownListElement(props) {
         } // if
     });
     // jsx:
-    return (<List 
-    // other props:
-    {...restProps} 
-    // accessibilities:
-    {...{
-        tabIndex,
-    }} 
-    // behaviors:
-    actionCtrl={actionCtrl} 
-    // variants:
-    theme={props.theme ?? 'secondary'} listStyle={props.listStyle ?? 'joined'} 
-    // classes:
-    classes={[
+    return (React.createElement(List, { ...restProps, ...{
+            tabIndex,
+        }, 
+        // behaviors:
+        actionCtrl: actionCtrl, 
+        // variants:
+        theme: props.theme ?? 'secondary', listStyle: props.listStyle ?? 'joined', 
+        // classes:
+        classes: [
             sheet.main, // inject DropdownListElement class
-        ]}>
-            {propEnabled
-            ?
-                (React.Children.map(children, (child, index) => (isTypeOf(child, ListItem)
-                    ?
-                        (((child.props.enabled ?? true) && (child.props.actionCtrl ?? actionCtrl))
-                            ?
-                                <child.type 
-                                // other props:
-                                {...child.props} 
+        ] }, propEnabled
+        ?
+            (React.Children.map(children, (child, index) => (isTypeOf(child, ListItem)
+                ?
+                    (((child.props.enabled ?? true) && (child.props.actionCtrl ?? actionCtrl))
+                        ?
+                            React.createElement(child.type
+                            // other props:
+                            , { ...child.props, 
                                 // essentials:
-                                key={child.key ?? index} 
+                                key: child.key ?? index, 
                                 // events:
-                                onClick={(e) => {
-                                        child.props.onClick?.(e);
-                                        handleClose?.(e, index);
-                                    }}/>
-                            :
-                                child)
-                    :
-                        (actionCtrl
-                            ?
-                                <ListItem 
+                                onClick: (e) => {
+                                    child.props.onClick?.(e);
+                                    handleClose?.(e, index);
+                                } })
+                        :
+                            child)
+                :
+                    (actionCtrl
+                        ?
+                            React.createElement(ListItem
+                            // essentials:
+                            , { 
                                 // essentials:
-                                key={index} 
+                                key: index, 
                                 // events:
-                                onClick={(e) => {
-                                        handleClose?.(e, index);
-                                    }}>
-                                {child}
-                            </ListItem>
-                            :
-                                child))))
-            :
-                children}
-        </List>);
+                                onClick: (e) => {
+                                    handleClose?.(e, index);
+                                } }, child)
+                        :
+                            child))))
+        :
+            children));
 }
 DropdownListElement.prototype = DropdownElement.prototype; // mark as DropdownElement compatible
 export function DropdownList(props) {
     // jsx:
-    return (<Dropdown 
-    // other props:
-    {...props} 
-    // semantics:
-    semanticTag={props.semanticTag ?? [null]} semanticRole={props.semanticRole ?? calculateSemanticRole(props)}>
-            <DropdownListElement 
-    // other props:
-    {...props}/>
-        </Dropdown>);
+    return (React.createElement(Dropdown, { ...props, 
+        // semantics:
+        semanticTag: props.semanticTag ?? [null], semanticRole: props.semanticRole ?? calculateSemanticRole(props) },
+        React.createElement(DropdownListElement, { ...props })));
 }
 export { DropdownList as default };
