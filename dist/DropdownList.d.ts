@@ -1,7 +1,7 @@
 /// <reference types="react" />
 import { ListStyle, ListVariant, ListItemProps, ListItem, ListSeparatorItem, ListProps } from '@nodestrap/list';
 import { PopupPlacement, PopupModifier, PopupPosition, OrientationName, OrientationVariant, DropdownCloseType, DropdownElementProps, DropdownProps } from '@nodestrap/dropdown';
-export declare const usesDropdownListElementLayout: () => import("@cssfn/cssfn").StyleCollection;
+export declare const usesDropdownListElementLayout: () => import("@cssfn/cssfn").Rule;
 export declare const useDropdownListElementSheet: import("@cssfn/types").Factory<import("jss").Classes<"main">>;
 export declare const cssProps: import("@cssfn/css-config").Refs<{}>, cssDecls: import("@cssfn/css-config").Decls<{}>, cssVals: import("@cssfn/css-config").Vals<{}>, cssConfig: import("@cssfn/css-config").CssConfigSettings;
 export declare const calculateSemanticRole: <TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListProps<TElement, TCloseType>) => "menu" | "dialog" | null;

@@ -3,11 +3,11 @@ import { default as React, } from 'react'; // base technology of our nodestrap c
 // cssfn:
 import { 
 // compositions:
-composition, mainComposition, imports, 
-// layouts:
-layout, 
+mainComposition, 
+// styles:
+style, imports, 
 // rules:
-variants, rule, } from '@cssfn/cssfn'; // cssfn core
+rule, } from '@cssfn/cssfn'; // cssfn core
 import { 
 // hooks:
 createUseSheet, } from '@cssfn/react-cssfn'; // cssfn for react
@@ -28,28 +28,24 @@ import {
 usesDropdownElementLayout, DropdownElement, Dropdown, } from '@nodestrap/dropdown';
 // styles:
 export const usesDropdownListElementLayout = () => {
-    return composition([
-        imports([
+    return style({
+        ...imports([
             // layouts:
             usesDropdownElementLayout(),
         ]),
-        layout({
+        ...style({
             // customize:
             ...usesGeneralProps(usesPrefixedProps(cssProps, 'items')), // apply general cssProps starting with items***
         }),
-    ]);
+    });
 };
 export const useDropdownListElementSheet = createUseSheet(() => [
-    mainComposition([
-        variants([
-            rule('&&', [
-                imports([
-                    // layouts:
-                    usesDropdownListElementLayout(),
-                ]),
-            ]),
+    mainComposition(rule('&&', {
+        ...imports([
+            // layouts:
+            usesDropdownListElementLayout(),
         ]),
-    ]),
+    })),
 ], /*sheetId :*/ 'ib5nas167b'); // an unique salt for SSR support, ensures the server-side & client-side have the same generated class names
 // configs:
 export const [cssProps, cssDecls, cssVals, cssConfig] = createCssConfig(() => {
