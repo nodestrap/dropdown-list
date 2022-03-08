@@ -25,13 +25,13 @@ usePropEnabled, } from '@nodestrap/accessibilities';
 import { ListItem, ListSeparatorItem, List, } from '@nodestrap/list';
 import { 
 // styles:
-usesDropdownElementLayout, DropdownElement, Dropdown, } from '@nodestrap/dropdown';
+usesDropdownComponentLayout, Dropdown, } from '@nodestrap/dropdown';
 // styles:
-export const usesDropdownListElementLayout = () => {
+export const usesDropdownListComponentLayout = () => {
     return style({
         ...imports([
             // layouts:
-            usesDropdownElementLayout(),
+            usesDropdownComponentLayout(),
         ]),
         ...style({
             // customize:
@@ -39,11 +39,11 @@ export const usesDropdownListElementLayout = () => {
         }),
     });
 };
-export const useDropdownListElementSheet = createUseSheet(() => [
+export const useDropdownListComponentSheet = createUseSheet(() => [
     mainComposition(rule('&&', {
         ...imports([
             // layouts:
-            usesDropdownListElementLayout(),
+            usesDropdownListComponentLayout(),
         ]),
     })),
 ], /*sheetId :*/ 'ib5nas167b'); // an unique salt for SSR support, ensures the server-side & client-side have the same generated class names
@@ -71,15 +71,15 @@ export const calculateSemanticRole = (props) => {
 export { ListItem, ListItem as DropdownListItem, ListItem as Item };
 // ListSeparatorItem => DropdownListSeparatorItem
 export { ListSeparatorItem, ListSeparatorItem as DropdownListSeparatorItem, ListSeparatorItem as SeparatorItem };
-export function DropdownListElement(props) {
+export function DropdownListComponent(props) {
     // styles:
-    const sheet = useDropdownListElementSheet();
+    const sheet = useDropdownListComponentSheet();
     // rest props:
     const { 
     // accessibilities:
-    active, // from accessibilities, removed
-    inheritActive, // from accessibilities, removed
-    tabIndex = -1, // from ModalElement   , moved to List
+    active, // from accessibilities  , removed
+    inheritActive, // from accessibilities  , removed
+    tabIndex = -1, // from DropdownComponent, moved to List
     // behaviors:
     actionCtrl = true, // set default to true
     // actions:
@@ -105,7 +105,7 @@ export function DropdownListElement(props) {
         theme: props.theme ?? 'secondary', listStyle: props.listStyle ?? 'joined', 
         // classes:
         classes: [
-            sheet.main, // inject DropdownListElement class
+            sheet.main, // inject DropdownListComponent class
         ] }, propEnabled
         ?
             (React.Children.map(children, (child, index) => (isTypeOf(child, ListItem)
@@ -141,12 +141,11 @@ export function DropdownListElement(props) {
         :
             children));
 }
-DropdownListElement.prototype = DropdownElement.prototype; // mark as DropdownElement compatible
 export function DropdownList(props) {
     // jsx:
     return (React.createElement(Dropdown, { ...props, 
         // semantics:
         semanticTag: props.semanticTag ?? [null], semanticRole: props.semanticRole ?? calculateSemanticRole(props) },
-        React.createElement(DropdownListElement, { ...props })));
+        React.createElement(DropdownListComponent, { ...props })));
 }
 export { DropdownList as default };

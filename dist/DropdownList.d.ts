@@ -1,21 +1,18 @@
 /// <reference types="react" />
 import { ListStyle, ListVariant, ListItemProps, ListItem, ListSeparatorItem, ListProps } from '@nodestrap/list';
-import { PopupPlacement, PopupMiddleware, PopupStrategy, OrientationName, OrientationVariant, DropdownCloseType, DropdownElementProps, DropdownProps } from '@nodestrap/dropdown';
-export declare const usesDropdownListElementLayout: () => import("@cssfn/cssfn").Rule;
-export declare const useDropdownListElementSheet: import("@cssfn/types").Factory<import("jss").Classes<"main">>;
+import { PopupPlacement, PopupMiddleware, PopupStrategy, OrientationName, OrientationVariant, DropdownCloseType, DropdownComponentProps, DropdownProps } from '@nodestrap/dropdown';
+export declare const usesDropdownListComponentLayout: () => import("@cssfn/cssfn").Rule;
+export declare const useDropdownListComponentSheet: import("@cssfn/types").Factory<import("jss").Classes<"main">>;
 export declare const cssProps: import("@cssfn/css-config").Refs<{}>, cssDecls: import("@cssfn/css-config").Decls<{}>, cssVals: import("@cssfn/css-config").Vals<{}>, cssConfig: import("@cssfn/css-config").CssConfigSettings;
 export declare const calculateSemanticRole: <TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListProps<TElement, TCloseType>) => "menu" | "dialog" | null;
 export type { ListItemProps, ListItemProps as DropdownListItemProps, ListItemProps as ItemProps };
 export { ListItem, ListItem as DropdownListItem, ListItem as Item };
 export { ListSeparatorItem, ListSeparatorItem as DropdownListSeparatorItem, ListSeparatorItem as SeparatorItem };
 export declare type DropdownListCloseType = number | DropdownCloseType;
-export interface DropdownListElementProps<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType> extends DropdownElementProps<TElement, TCloseType>, ListProps<TElement> {
+export interface DropdownListComponentProps<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType> extends DropdownComponentProps<TElement, TCloseType>, ListProps<TElement> {
 }
-export declare function DropdownListElement<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListElementProps<TElement, TCloseType>): JSX.Element;
-export declare namespace DropdownListElement {
-    var prototype: any;
-}
-export interface DropdownListProps<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType> extends DropdownProps<TElement, TCloseType>, DropdownListElementProps<TElement, TCloseType> {
+export declare function DropdownListComponent<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListComponentProps<TElement, TCloseType>): JSX.Element;
+export interface DropdownListProps<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType> extends DropdownProps<TElement, TCloseType>, DropdownListComponentProps<TElement, TCloseType> {
 }
 export declare function DropdownList<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListProps<TElement, TCloseType>): JSX.Element;
 export { DropdownList as default };
