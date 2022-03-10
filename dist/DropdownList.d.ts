@@ -1,10 +1,7 @@
 /// <reference types="react" />
 import { ListStyle, ListVariant, ListItemProps, ListItem, ListSeparatorItem, ListProps } from '@nodestrap/list';
 import { PopupPlacement, PopupMiddleware, PopupStrategy, OrientationName, OrientationVariant, DropdownCloseType, DropdownComponentProps, DropdownProps } from '@nodestrap/dropdown';
-export declare const usesDropdownListComponentLayout: () => import("@cssfn/cssfn").Rule;
-export declare const useDropdownListComponentSheet: import("@cssfn/types").Factory<import("jss").Classes<"main">>;
-export declare const cssProps: import("@cssfn/css-config").Refs<{}>, cssDecls: import("@cssfn/css-config").Decls<{}>, cssVals: import("@cssfn/css-config").Vals<{}>, cssConfig: import("@cssfn/css-config").CssConfigSettings;
-export declare const calculateSemanticRole: <TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListProps<TElement, TCloseType>) => "menu" | "dialog" | null;
+export declare const calculateSemanticRole: <TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListProps<TElement, TCloseType>) => "dialog" | "menu" | null;
 export type { ListItemProps, ListItemProps as DropdownListItemProps, ListItemProps as ItemProps };
 export { ListItem, ListItem as DropdownListItem, ListItem as Item };
 export { ListSeparatorItem, ListSeparatorItem as DropdownListSeparatorItem, ListSeparatorItem as SeparatorItem };
