@@ -7,6 +7,7 @@ import {
 import {
     // utilities:
     isTypeOf,
+    setRef,
 }                           from '@nodestrap/utilities'
 import {
     // hooks:
@@ -14,6 +15,10 @@ import {
 }                           from '@nodestrap/accessibilities'
 
 // nodestrap components:
+import type {
+    // react components:
+    ElementProps,
+}                           from '@nodestrap/element'
 import {
     // hooks:
     ListStyle,
@@ -56,7 +61,7 @@ import {
 
 
 // utilities:
-export const calculateSemanticRole = <TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListProps<TElement, TCloseType>) => {
+export const calculateSemanticRole = <TElement extends HTMLElement = HTMLElement>(props: React.PropsWithChildren<Omit<ListProps<TElement>, keyof React.DOMAttributes<TElement>>>) => {
     if (props.role) return null;
     
     
@@ -100,22 +105,32 @@ export interface DropdownListComponentProps<TElement extends HTMLElement = HTMLE
         DropdownComponentProps<TElement, TCloseType>,
         ListProps<TElement>
 {
+    // essentials:
+    listRef? : React.Ref<HTMLElement> // setter ref
+    
+    
+    // components:
+    list?    : React.ReactComponentElement<any, ElementProps>
 }
 export function DropdownListComponent<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListComponentProps<TElement, TCloseType>) {
     // rest props:
     const {
+        // essentials:
+        elmRef,
+        listRef,
+        
+        
         // accessibilities:
-        active,         // from accessibilities  , removed
-        inheritActive,  // from accessibilities  , removed
-        tabIndex = -1,  // from DropdownComponent, moved to List
+        onActiveChange,
+        tabIndex   = -1,  // from DropdownComponent, moved to List
         
         
         // behaviors:
         actionCtrl = true, // set default to true
         
         
-        // actions:
-        onActiveChange,
+        // components:
+        list       = <List<TElement> />,
         
         
         // children:
@@ -140,83 +155,82 @@ export function DropdownListComponent<TElement extends HTMLElement = HTMLElement
     
     
     // jsx:
-    return (
-        <List<TElement>
+    const defaultListProps : ListProps = {
             // other props:
-            {...restProps}
+            ...restProps,
+            
+            
+            // essentials:
+            elmRef: (elm) => {
+                setRef(elmRef, elm);
+                setRef(listRef, elm);
+            },
             
             
             // accessibilities:
-            {...{
-                tabIndex,
-            }}
+            ...{
+                tabIndex, // turns <List> to <ControlList>
+            },
             
             
             // behaviors:
-            actionCtrl={actionCtrl}
-            
-            
-            // variants:
-            theme={props.theme ?? 'secondary'}
-            listStyle={props.listStyle ?? 'joined'}
-        >
-            {
-                propEnabled
+            actionCtrl,
+    };
+    return React.cloneElement(React.cloneElement(list, defaultListProps, (
+        propEnabled
+        ?
+        (
+            React.Children.map(children, (child, index) => (
+                isTypeOf(child, ListItem)
                 ?
                 (
-                    React.Children.map(children, (child, index) => (
-                        isTypeOf(child, ListItem)
-                        ?
-                        (
-                            ((child.props.enabled ?? true) && (child.props.actionCtrl ?? actionCtrl))
-                            ?
-                            <child.type
-                                // other props:
-                                {...child.props}
-                                
-                                
-                                // essentials:
-                                key={child.key ?? index}
-                                
-                                
-                                // events:
-                                onClick={(e) => {
-                                    child.props.onClick?.(e);
-                                    
-                                    
-                                    
-                                    handleClose?.(e, index);
-                                }}
-                            />
-                            :
-                            child
-                        )
-                        :
-                        (
-                            actionCtrl
-                            ?
-                            <ListItem
-                                // essentials:
-                                key={index}
-                                
-                                
-                                // events:
-                                onClick={(e) => {
-                                    handleClose?.(e, index);
-                                }}
-                            >
-                                { child }
-                            </ListItem>
-                            :
-                            child
-                        )
-                    ))
+                    ((child.props.enabled ?? true) && (child.props.actionCtrl ?? actionCtrl))
+                    ?
+                    <child.type
+                        // other props:
+                        {...child.props}
+                        
+                        
+                        // essentials:
+                        key={child.key ?? index}
+                        
+                        
+                        // events:
+                        onClick={(e) => {
+                            child.props.onClick?.(e);
+                            
+                            
+                            
+                            handleClose?.(e, index);
+                        }}
+                    />
+                    :
+                    child
                 )
                 :
-                children
-            }
-        </List>
-    );
+                (
+                    actionCtrl
+                    ?
+                    <ListItem
+                        // essentials:
+                        key={index}
+                        
+                        
+                        // events:
+                        onClick={(e) => {
+                            handleClose?.(e, index);
+                        }}
+                    >
+                        { child }
+                    </ListItem>
+                    :
+                    child
+                )
+            ))
+        )
+        :
+        children
+    )), list.props);
 }
 
 
@@ -228,11 +242,57 @@ export interface DropdownListProps<TElement extends HTMLElement = HTMLElement, T
 {
 }
 export function DropdownList<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListProps<TElement, TCloseType>) {
+    // rest props:
+    const {
+        // essentials:
+        listRef,
+        
+        
+        // components:
+        list,
+        
+        
+        // children:
+        children,
+    ...restDropdownProps} = props;
+    const {
+        // layouts:
+        size,
+        orientation,
+        // nude,
+        
+        
+        // colors:
+        theme      = 'secondary', // set default to secondary
+        gradient,
+        outlined,
+        mild,
+        
+        
+        // variants:
+        listStyle  = 'joined', // set default to joined
+        
+        
+        // behaviors:
+        actionCtrl,
+        
+        
+        // <Indicator> states:
+        enabled,
+        inheritEnabled,
+        readOnly,
+        inheritReadOnly,
+        // active,
+        // inheritActive,
+    } = restDropdownProps;
+    
+    
+    
     // jsx:
     return (
         <Dropdown<TElement, TCloseType>
             // other props:
-            {...props}
+            {...restDropdownProps}
             
             
             // semantics:
@@ -240,9 +300,44 @@ export function DropdownList<TElement extends HTMLElement = HTMLElement, TCloseT
             semanticRole={props.semanticRole ?? calculateSemanticRole(props)}
         >
             <DropdownListComponent<TElement, TCloseType>
-                // other props:
-                {...props}
-            />
+                // essentials:
+                listRef={listRef}
+                
+                
+                // components:
+                list={list}
+                
+                
+                // variants:
+                // layouts:
+                size={size}
+                orientation={orientation}
+                nude={false}
+                // colors:
+                theme={theme}
+                gradient={gradient}
+                outlined={outlined}
+                mild={mild}
+                
+                
+                // variants:
+                listStyle={listStyle}
+                
+                
+                // behaviors:
+                actionCtrl={actionCtrl}
+                
+                
+                // <Indicator> states:
+                enabled={enabled}
+                inheritEnabled={inheritEnabled}
+                readOnly={readOnly}
+                inheritReadOnly={inheritReadOnly}
+                active={false}
+                inheritActive={false}
+            >
+                { children }
+            </DropdownListComponent>
         </Dropdown>
     );
 }

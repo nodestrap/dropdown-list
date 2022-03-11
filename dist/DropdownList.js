@@ -3,11 +3,10 @@ import { default as React, } from 'react'; // base technology of our nodestrap c
 // nodestrap utilities:
 import { 
 // utilities:
-isTypeOf, } from '@nodestrap/utilities';
+isTypeOf, setRef, } from '@nodestrap/utilities';
 import { 
 // hooks:
 usePropEnabled, } from '@nodestrap/accessibilities';
-// nodestrap components:
 import { ListItem, ListSeparatorItem, List, } from '@nodestrap/list';
 import { Dropdown, } from '@nodestrap/dropdown';
 // utilities:
@@ -31,14 +30,14 @@ export { ListSeparatorItem, ListSeparatorItem as DropdownListSeparatorItem, List
 export function DropdownListComponent(props) {
     // rest props:
     const { 
+    // essentials:
+    elmRef, listRef, 
     // accessibilities:
-    active, // from accessibilities  , removed
-    inheritActive, // from accessibilities  , removed
-    tabIndex = -1, // from DropdownComponent, moved to List
+    onActiveChange, tabIndex = -1, // from DropdownComponent, moved to List
     // behaviors:
     actionCtrl = true, // set default to true
-    // actions:
-    onActiveChange, 
+    // components:
+    list = React.createElement(List, null), 
     // children:
     children, ...restProps } = props;
     // fn props:
@@ -51,13 +50,22 @@ export function DropdownListComponent(props) {
         } // if
     });
     // jsx:
-    return (React.createElement(List, { ...restProps, ...{
-            tabIndex,
-        }, 
+    const defaultListProps = {
+        // other props:
+        ...restProps,
+        // essentials:
+        elmRef: (elm) => {
+            setRef(elmRef, elm);
+            setRef(listRef, elm);
+        },
+        // accessibilities:
+        ...{
+            tabIndex, // turns <List> to <ControlList>
+        },
         // behaviors:
-        actionCtrl: actionCtrl, 
-        // variants:
-        theme: props.theme ?? 'secondary', listStyle: props.listStyle ?? 'joined' }, propEnabled
+        actionCtrl,
+    };
+    return React.cloneElement(React.cloneElement(list, defaultListProps, (propEnabled
         ?
             (React.Children.map(children, (child, index) => (isTypeOf(child, ListItem)
                 ?
@@ -90,13 +98,52 @@ export function DropdownListComponent(props) {
                         :
                             child))))
         :
-            children));
+            children)), list.props);
 }
 export function DropdownList(props) {
+    // rest props:
+    const { 
+    // essentials:
+    listRef, 
+    // components:
+    list, 
+    // children:
+    children, ...restDropdownProps } = props;
+    const { 
+    // layouts:
+    size, orientation, 
+    // nude,
+    // colors:
+    theme = 'secondary', // set default to secondary
+    gradient, outlined, mild, 
+    // variants:
+    listStyle = 'joined', // set default to joined
+    // behaviors:
+    actionCtrl, 
+    // <Indicator> states:
+    enabled, inheritEnabled, readOnly, inheritReadOnly,
+    // active,
+    // inheritActive,
+     } = restDropdownProps;
     // jsx:
-    return (React.createElement(Dropdown, { ...props, 
+    return (React.createElement(Dropdown, { ...restDropdownProps, 
         // semantics:
         semanticTag: props.semanticTag ?? [null], semanticRole: props.semanticRole ?? calculateSemanticRole(props) },
-        React.createElement(DropdownListComponent, { ...props })));
+        React.createElement(DropdownListComponent, { 
+            // essentials:
+            listRef: listRef, 
+            // components:
+            list: list, 
+            // variants:
+            // layouts:
+            size: size, orientation: orientation, nude: false, 
+            // colors:
+            theme: theme, gradient: gradient, outlined: outlined, mild: mild, 
+            // variants:
+            listStyle: listStyle, 
+            // behaviors:
+            actionCtrl: actionCtrl, 
+            // <Indicator> states:
+            enabled: enabled, inheritEnabled: inheritEnabled, readOnly: readOnly, inheritReadOnly: inheritReadOnly, active: false, inheritActive: false }, children)));
 }
 export { DropdownList as default };

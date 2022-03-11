@@ -1,6 +1,6 @@
 {
   "name": "@nodestrap/dropdown-list",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "description": "Overlays a list element (menu).",
   "type": "module",
   "main": "dist/DropdownList.js",
@@ -30,7 +30,8 @@
   "homepage": "https://github.com/nodestrap/dropdown-list#readme",
   "dependencies": {
     "@nodestrap/accessibilities": "^4.0.4",
-    "@nodestrap/dropdown": "^4.0.7",
+    "@nodestrap/dropdown": "^4.0.8",
+    "@nodestrap/element": "^4.0.7",
     "@nodestrap/list": "^4.0.8",
     "@nodestrap/utilities": "^4.0.3",
     "@types/react": "^17.0.40",
