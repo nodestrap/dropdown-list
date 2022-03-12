@@ -136,7 +136,8 @@ export function DropdownList(props) {
             list: list, 
             // variants:
             // layouts:
-            size: size, orientation: orientation, nude: false, 
+            size: size, orientation: orientation, 
+            // nude={nude}
             // colors:
             theme: theme, gradient: gradient, outlined: outlined, mild: mild, 
             // variants:
