@@ -9,6 +9,7 @@ export { ListSeparatorItem, ListSeparatorItem as DropdownListSeparatorItem, List
 export declare type DropdownListCloseType = number | DropdownCloseType;
 export interface DropdownListComponentProps<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType> extends DropdownComponentProps<TElement, TCloseType>, ListProps<TElement> {
     listRef?: React.Ref<HTMLElement>;
+    listOrientation?: OrientationName;
     list?: React.ReactComponentElement<any, ElementProps>;
 }
 export declare function DropdownListComponent<TElement extends HTMLElement = HTMLElement, TCloseType = DropdownListCloseType>(props: DropdownListComponentProps<TElement, TCloseType>): React.FunctionComponentElement<any>;
